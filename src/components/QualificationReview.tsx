@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Qualification, Language, ProductCategory, DocumentType, TargetAudience } from '@/types';
 import { PRODUCT_CATEGORIES, DOCUMENT_TYPES, TARGET_AUDIENCES } from '@/types';
 import { t } from '@/utils/constants';

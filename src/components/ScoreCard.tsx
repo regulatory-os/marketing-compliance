@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Rapport, Language } from '@/types';
 import { getVerdictConfig, getScoreColor, t } from '@/utils/constants';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { EnrichedFinding, Language } from '@/types';
 import { STATUS_CONFIG, t } from '@/utils/constants';
 

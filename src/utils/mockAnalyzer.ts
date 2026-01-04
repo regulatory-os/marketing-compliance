@@ -229,7 +229,7 @@ function analyzeObligation(
   obligation: { id: string; desc: string; criticite: string },
   lowerContent: string,
   content: string,
-  qualification: Qualification
+  _qualification: Qualification
 ): Finding {
   let statut: FindingStatus = 'CONFORME';
   let commentaire = '';

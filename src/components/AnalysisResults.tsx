@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import type { AnalysisResult, Language, ViewOptions, GroupByOption } from '@/types';
 import { t, countNonApplicableFindings, getGroupedFindings } from '@/utils';
 import { ScoreCard } from './ScoreCard';
