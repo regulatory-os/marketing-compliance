@@ -1,100 +1,102 @@
-# Marketing Compliance Analyzer
+# Analyse de Conformité Marketing AMF
 
-A standalone, privacy-first tool for analyzing marketing content for regulatory compliance. All analysis happens locally in your browser - no data is sent to any server.
+Outil standalone d'analyse de conformité des documents marketing financiers selon la réglementation AMF (Autorité des Marchés Financiers). Toute l'analyse s'effectue localement dans votre navigateur - aucune donnée n'est envoyée à un serveur.
 
-![Marketing Compliance Analyzer](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Marketing Compliance Analyzer](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)
 ![React](https://img.shields.io/badge/React-18.2-blue.svg)
 
-## Features
+🇫🇷 **Français** | [English](#english-version)
 
-- **100% Local Analysis** - All processing happens in your browser. No data leaves your machine.
-- **Comprehensive Rule Set** - 30+ rules covering FTC, GDPR, CAN-SPAM, FDA, and more.
-- **Real-time Highlighting** - See issues highlighted directly in your content.
-- **Severity Scoring** - Get a compliance score from 0-100 with categorized issues.
-- **Export Reports** - Download or copy compliance reports in Markdown format.
-- **Analysis History** - Keep track of your recent analyses (stored in memory only).
+## Fonctionnalités
 
-## Compliance Categories
+- **Analyse 100% locale** - Tout le traitement s'effectue dans votre navigateur. Aucune donnée ne quitte votre machine.
+- **Réglementation AMF** - Conforme aux textes réglementaires français : DOC-2011-24, DOC-2010-05, ESMA, etc.
+- **Workflow en 3 étapes** - Upload → Qualification → Analyse détaillée
+- **Qualification automatique** - Détection du type de produit, public cible et textes applicables
+- **Résultats détaillés** - Score de conformité, groupement par texte/statut/criticité
+- **Bilingue** - Interface disponible en français et en anglais
 
-| Category | Description |
-|----------|-------------|
-| Misleading Claims | Absolute guarantees, unqualified superlatives |
-| Unsubstantiated Claims | Clinical studies, statistics without sources |
-| Pricing Issues | Hidden fees, misleading price comparisons |
-| Missing Disclaimers | Affiliate disclosures, results disclaimers |
-| Prohibited Terms | Cure claims, miracle language |
-| Urgency Manipulation | False scarcity, FOMO tactics |
-| Testimonial Issues | Unverified testimonials, celebrity endorsements |
-| Environmental Claims | Greenwashing, unsubstantiated eco-claims |
-| Health Claims | Weight loss promises, supplement claims |
-| Financial Claims | Income promises, guaranteed returns |
-| Data Privacy | Collection notices, consent requirements |
-| Comparative Advertising | Unsubstantiated competitor comparisons |
+## Textes Réglementaires Couverts
 
-## Quick Start
+| Code | Titre | Description |
+|------|-------|-------------|
+| DOC-2011-24 | Communications publicitaires OPC | Placements collectifs (OPCVM, FIA, SCPI, etc.) |
+| DOC-2010-05 | Instruments complexes | Produits structurés, EMTN, titres de créance |
+| ESMA34-45-1272 | Guidelines MiFID II | Communications marketing instruments financiers |
+| DOC-2020-03 | ESG / Finance durable | Allégations extra-financières et durables |
 
-### Prerequisites
+## Catégories de Produits Analysés
+
+- **OPCVM** - Organismes de Placement Collectif en Valeurs Mobilières
+- **FIA** - Fonds d'Investissement Alternatifs
+- **SCPI / OPCI** - Immobilier collectif
+- **ETF** - Fonds indiciels cotés
+- **EMTN** - Euro Medium Term Notes
+- **Produits structurés** - Certificats, autocalls, etc.
+
+## Démarrage Rapide
+
+### Prérequis
 
 - Node.js 18+
-- npm or yarn
+- npm ou yarn
 
 ### Installation
 
 ```bash
-# Clone the repository
+# Cloner le dépôt
 git clone https://github.com/regulatory-os/marketing-compliance.git
 cd marketing-compliance
 
-# Install dependencies
+# Installer les dépendances
 npm install
 
-# Start development server
+# Lancer le serveur de développement
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`.
+L'application sera disponible sur `http://localhost:5173`.
 
-### Build for Production
+### Build Production
 
 ```bash
-# Build the application
+# Compiler l'application
 npm run build
 
-# Preview the production build
+# Prévisualiser le build
 npm run preview
 ```
 
-## Project Structure
+## Structure du Projet
 
 ```
 marketing-compliance/
 ├── public/
-│   └── vite.svg              # App icon
+│   └── vite.svg
 ├── src/
-│   ├── components/           # React UI components
-│   │   ├── ContentInput.tsx  # Text input area
-│   │   ├── ScoreCard.tsx     # Compliance score display
-│   │   ├── IssueList.tsx     # List of found issues
-│   │   ├── HighlightedContent.tsx  # Content with highlights
-│   │   ├── ExportButton.tsx  # Report export functionality
+│   ├── components/           # Composants React UI
+│   │   ├── ContentInput.tsx     # Zone de saisie du document
+│   │   ├── QualificationReview.tsx  # Révision de la qualification
+│   │   ├── AnalysisResults.tsx  # Affichage des résultats
+│   │   ├── ScoreCard.tsx        # Affichage du score
+│   │   ├── FindingCard.tsx      # Carte de constat
+│   │   ├── LanguageToggle.tsx   # Bascule FR/EN
 │   │   └── index.ts
 │   ├── hooks/
-│   │   ├── useComplianceAnalysis.ts  # Main analysis hook
+│   │   ├── useMarketingAnalysis.ts  # Hook principal d'analyse
 │   │   └── index.ts
 │   ├── types/
-│   │   ├── compliance.ts     # TypeScript interfaces
-│   │   └── index.ts
+│   │   └── index.ts             # Types TypeScript AMF
 │   ├── utils/
-│   │   ├── analyzer.ts       # Core analysis engine
-│   │   ├── complianceRules.ts  # Compliance rule definitions
+│   │   ├── constants.ts         # Configuration et traductions
+│   │   ├── mockAnalyzer.ts      # Moteur d'analyse simulé
+│   │   ├── findingGroupUtils.ts # Utilitaires de groupement
 │   │   └── index.ts
-│   ├── App.tsx               # Main application component
-│   ├── main.tsx              # Entry point
-│   └── index.css             # Global styles (Tailwind)
-├── docs/
-│   └── schema.sql            # Optional SQL schema reference
+│   ├── App.tsx                  # Composant principal
+│   ├── main.tsx                 # Point d'entrée
+│   └── index.css                # Styles (Tailwind)
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
@@ -102,144 +104,129 @@ marketing-compliance/
 └── README.md
 ```
 
-## Usage
+## Utilisation
 
-### Basic Usage
+### Workflow en 3 étapes
 
-1. **Enter Content**: Paste or type your marketing content in the text area.
-2. **Select Content Type**: Choose the type of content (Email, Social Media, etc.).
-3. **Analyze**: Click "Analyze Compliance" to run the analysis.
-4. **Review Results**: See your compliance score, highlighted issues, and recommendations.
-5. **Export**: Download or copy the report for your records.
+1. **Document** - Collez ou uploadez votre document marketing
+2. **Qualification** - Vérifiez/ajustez le type de produit, public cible et caractéristiques détectées
+3. **Résultats** - Consultez le score de conformité, les constats et actions correctives
 
-### Programmatic Usage
+### Statuts des Constats
 
-You can also use the analysis engine programmatically:
+| Statut | Description |
+|--------|-------------|
+| CONFORME | L'obligation est respectée |
+| NON_CONFORME | Non-conformité détectée nécessitant une correction |
+| AMELIORATION | Suggestion d'amélioration (non bloquante) |
+| NON_APPLICABLE | Obligation non applicable au contexte |
+| NON_VERIFIABLE | Impossible à vérifier sans informations supplémentaires |
 
-```typescript
-import { analyzeContent } from './src/utils';
+### Niveaux de Criticité
 
-const content = "Get 100% guaranteed results with our miracle formula!";
-const options = {
-  contentType: 'advertising',
-  strictMode: false,
-  includeInfoLevel: true,
-};
+| Niveau | Description |
+|--------|-------------|
+| Critique | Risque élevé de sanction AMF |
+| Majeur | Non-conformité significative |
+| Mineur | Point d'attention |
+| Info | Information contextuelle |
 
-const result = analyzeContent(content, options);
-
-console.log(`Compliance Score: ${result.score}/100`);
-console.log(`Issues Found: ${result.issues.length}`);
-
-result.issues.forEach(issue => {
-  console.log(`- [${issue.severity}] ${issue.title}: ${issue.matchedText}`);
-});
-```
-
-### Custom Rules
-
-Add custom rules by extending `complianceRules.ts`:
+## Utilisation Programmatique
 
 ```typescript
-import { ComplianceRule } from '@/types';
+import { simulateQualification, simulateAnalysis } from './src/utils';
 
-const customRule: ComplianceRule = {
-  id: 'custom-rule-1',
-  category: 'misleading_claims',
-  name: 'Custom Check',
-  description: 'Description of what this rule checks',
-  severity: 'medium',
-  patterns: [/your-regex-pattern/gi],
-  suggestion: 'How to fix this issue',
-  regulation: 'Applicable regulation',
-};
+const content = "Document promotionnel OPCVM...";
+
+// Étape 1 : Qualification
+const qualification = simulateQualification(content);
+console.log('Type produit:', qualification.type_produit.categorie);
+console.log('Textes applicables:', qualification.textes_applicables);
+
+// Étape 2 : Analyse
+const result = simulateAnalysis(content, qualification);
+console.log('Score:', result.rapport.score_conformite);
+console.log('Non-conformités:', result.rapport.nb_non_conformes);
 ```
 
-## Regulations Covered
+## Version Standalone vs Hosted
 
-This tool checks content against guidelines from:
+Ceci est la **version standalone** - 100% côté client sans base de données.
 
-- **FTC (Federal Trade Commission)**
-  - Truth in Advertising
-  - Endorsement Guidelines
-  - Free Offers Rule
-  - Business Opportunity Rule
+| Fonctionnalité | Standalone | Hosted (regulatory-os) |
+|----------------|------------|------------------------|
+| Analyse | Simulée (locale) | IA Claude (Supabase) |
+| Stockage | Mémoire uniquement | Base de données |
+| Historique | Session uniquement | Permanent |
+| Précision | Heuristiques | IA avancée |
+| Coût | Gratuit | API usage |
 
-- **FDA (Food and Drug Administration)**
-  - Drug Claims Regulations
-  - DSHEA (Dietary Supplements)
+## Contribution
 
-- **Privacy Regulations**
-  - GDPR (General Data Protection Regulation)
-  - CCPA (California Consumer Privacy Act)
-  - CAN-SPAM Act
+Les contributions sont les bienvenues !
 
-- **Industry Standards**
-  - NAD (National Advertising Division)
-  - FTC Green Guides
-  - COPPA (Children's Online Privacy)
+1. **Signaler des bugs** - Ouvrez une issue
+2. **Proposer des améliorations** - Soumettez une PR
+3. **Ajouter des règles** - Contribuez de nouvelles obligations
+4. **Améliorer la doc** - Aidez à enrichir la documentation
 
-## Severity Levels
-
-| Level | Color | Impact | Description |
-|-------|-------|--------|-------------|
-| Critical | Red | -25 points | Serious violations requiring immediate attention |
-| High | Orange | -15 points | Significant issues that should be addressed |
-| Medium | Yellow | -8 points | Moderate concerns worth reviewing |
-| Low | Blue | -3 points | Minor suggestions for improvement |
-| Info | Gray | -1 point | Informational notes |
-
-## Standalone vs Database Version
-
-This is the **standalone version** - 100% client-side with no database required.
-
-| Feature | Standalone | With Database |
-|---------|------------|---------------|
-| Analysis | Local (browser) | Local (browser) |
-| Data Storage | In-memory only | Persistent (SQL) |
-| History | Session only | Permanent |
-| Custom Rules | Code changes | User-defined |
-| Dependencies | None | Supabase/PostgreSQL |
-
-For those who want to add persistence, see `docs/schema.sql` for a reference SQL schema compatible with Supabase/PostgreSQL.
-
-## Contributing
-
-We welcome contributions! Here's how you can help:
-
-1. **Report Issues**: Found a bug or have a feature request? Open an issue.
-2. **Submit PRs**: Fix bugs or add features by submitting a pull request.
-3. **Add Rules**: Contribute new compliance rules for different regulations.
-4. **Improve Docs**: Help improve documentation and examples.
-
-### Development
+### Développement
 
 ```bash
-# Run linting
+# Linting
 npm run lint
 
-# Type checking
+# Vérification des types
 npm run type-check
 
 # Build
 npm run build
 ```
 
-## License
+## Licence
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT License - voir [LICENSE](LICENSE) pour les détails.
 
-## Disclaimer
+## Avertissement
 
-**This tool is for informational purposes only and does not constitute legal advice.**
+**Cet outil est fourni à titre d'aide à la décision uniquement et ne constitue pas un conseil juridique.**
 
-Marketing regulations vary by jurisdiction and industry. Always consult with a qualified legal professional before publishing marketing content. The analysis provided by this tool is based on general guidelines and may not cover all applicable regulations in your specific situation.
-
-## Related Projects
-
-- [regulatory-os](https://github.com/regulatory-os) - Open-source regulatory compliance tools
-- [FTC Guidelines](https://www.ftc.gov/business-guidance/advertising-marketing) - Official FTC advertising guidance
+Les réglementations marketing varient selon les produits et les situations. Consultez toujours un professionnel qualifié avant de publier du contenu marketing. L'analyse fournie est basée sur des heuristiques et peut ne pas couvrir toutes les obligations applicables.
 
 ---
 
-Made with ❤️ by the [regulatory-os](https://github.com/regulatory-os) community
+# English Version
+
+# AMF Marketing Compliance Analyzer
+
+Standalone tool for analyzing financial marketing documents according to AMF (French Financial Markets Authority) regulations. All analysis happens locally in your browser - no data is sent to any server.
+
+## Features
+
+- **100% Local Analysis** - All processing happens in your browser. No data leaves your machine.
+- **AMF Regulations** - Compliant with French regulatory texts: DOC-2011-24, DOC-2010-05, ESMA, etc.
+- **3-Step Workflow** - Upload → Qualification → Detailed analysis
+- **Automatic Qualification** - Product type, target audience, and applicable texts detection
+- **Detailed Results** - Compliance score, grouping by text/status/criticality
+- **Bilingual** - Interface available in French and English
+
+## Quick Start
+
+```bash
+git clone https://github.com/regulatory-os/marketing-compliance.git
+cd marketing-compliance
+npm install
+npm run dev
+```
+
+See French documentation above for detailed instructions.
+
+## Disclaimer
+
+**This tool is for decision support only and does not constitute legal advice.**
+
+Always consult with a qualified professional before publishing marketing content.
+
+---
+
+Made with care by the [regulatory-os](https://github.com/regulatory-os) community

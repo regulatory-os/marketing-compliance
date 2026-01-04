@@ -1,94 +1,101 @@
 import React from 'react';
-import { Shield, AlertTriangle, CheckCircle, Info } from 'lucide-react';
-import { AnalysisSummary } from '@/types';
+import type { Rapport, Language } from '@/types';
+import { getVerdictConfig, getScoreColor, t } from '@/utils/constants';
 
 interface ScoreCardProps {
-  score: number;
-  summary: AnalysisSummary;
+  rapport: Rapport;
+  language: Language;
 }
 
-export function ScoreCard({ score, summary }: ScoreCardProps) {
-  const getScoreColor = () => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    if (score >= 40) return 'text-orange-600';
-    return 'text-red-600';
-  };
-
-  const getScoreLabel = () => {
-    if (score >= 80) return 'Good';
-    if (score >= 60) return 'Fair';
-    if (score >= 40) return 'Poor';
-    return 'Critical';
-  };
-
-  const getScoreBg = () => {
-    if (score >= 80) return 'bg-green-50 border-green-200';
-    if (score >= 60) return 'bg-yellow-50 border-yellow-200';
-    if (score >= 40) return 'bg-orange-50 border-orange-200';
-    return 'bg-red-50 border-red-200';
-  };
+export function ScoreCard({ rapport, language }: ScoreCardProps) {
+  const verdictConfig = getVerdictConfig(rapport.verdict, language);
+  const scoreColor = getScoreColor(rapport.score_conformite);
 
   return (
-    <div className={`rounded-lg border-2 p-6 ${getScoreBg()}`}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className={`p-3 rounded-full ${score >= 60 ? 'bg-green-100' : 'bg-red-100'}`}>
-            <Shield className={`h-8 w-8 ${getScoreColor()}`} />
-          </div>
-          <div>
-            <h3 className="text-sm font-medium text-gray-600">Compliance Score</h3>
-            <div className="flex items-baseline gap-2">
-              <span className={`text-4xl font-bold ${getScoreColor()}`}>{score}</span>
-              <span className="text-gray-500">/100</span>
-              <span className={`text-sm font-medium ${getScoreColor()}`}>
-                ({getScoreLabel()})
-              </span>
-            </div>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-lg font-semibold text-gray-900">
+          {t('complianceScore', language)}
+        </h2>
+        <span
+          className={`px-3 py-1 rounded-full text-sm font-medium ${verdictConfig.bgColor} ${verdictConfig.color}`}
+        >
+          {verdictConfig.label}
+        </span>
+      </div>
+
+      {/* Score circle */}
+      <div className="flex justify-center mb-6">
+        <div className="relative w-32 h-32">
+          <svg className="w-32 h-32 transform -rotate-90">
+            <circle
+              cx="64"
+              cy="64"
+              r="56"
+              className="stroke-gray-200"
+              strokeWidth="12"
+              fill="none"
+            />
+            <circle
+              cx="64"
+              cy="64"
+              r="56"
+              className={scoreColor.replace('text-', 'stroke-')}
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+              strokeDasharray={`${(rapport.score_conformite / 100) * 352} 352`}
+            />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className={`text-3xl font-bold ${scoreColor}`}>
+              {rapport.score_conformite}%
+            </span>
           </div>
         </div>
+      </div>
 
-        <div className="flex gap-4">
-          {summary.criticalCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-red-100 rounded-lg">
-              <AlertTriangle className="h-5 w-5 text-red-600" />
-              <div>
-                <div className="text-lg font-bold text-red-700">{summary.criticalCount}</div>
-                <div className="text-xs text-red-600">Critical</div>
-              </div>
-            </div>
-          )}
-
-          {summary.highCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-orange-100 rounded-lg">
-              <AlertTriangle className="h-5 w-5 text-orange-600" />
-              <div>
-                <div className="text-lg font-bold text-orange-700">{summary.highCount}</div>
-                <div className="text-xs text-orange-600">High</div>
-              </div>
-            </div>
-          )}
-
-          {summary.mediumCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-yellow-100 rounded-lg">
-              <Info className="h-5 w-5 text-yellow-600" />
-              <div>
-                <div className="text-lg font-bold text-yellow-700">{summary.mediumCount}</div>
-                <div className="text-xs text-yellow-600">Medium</div>
-              </div>
-            </div>
-          )}
-
-          {summary.totalIssues === 0 && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-green-100 rounded-lg">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <div>
-                <div className="text-sm font-bold text-green-700">No Issues</div>
-                <div className="text-xs text-green-600">Great job!</div>
-              </div>
-            </div>
-          )}
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-green-50 rounded-lg p-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-green-500" />
+            <span className="text-sm text-gray-600">{t('compliant', language)}</span>
+          </div>
+          <span className="text-2xl font-bold text-green-700">{rapport.nb_conformes}</span>
         </div>
+
+        <div className="bg-red-50 rounded-lg p-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500" />
+            <span className="text-sm text-gray-600">{t('nonCompliant', language)}</span>
+          </div>
+          <span className="text-2xl font-bold text-red-700">{rapport.nb_non_conformes}</span>
+        </div>
+
+        <div className="bg-blue-50 rounded-lg p-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-blue-500" />
+            <span className="text-sm text-gray-600">{t('improvement', language)}</span>
+          </div>
+          <span className="text-2xl font-bold text-blue-700">{rapport.nb_ameliorations}</span>
+        </div>
+
+        <div className="bg-gray-50 rounded-lg p-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-gray-400" />
+            <span className="text-sm text-gray-600">
+              {language === 'fr' ? 'Non applicable' : 'Not applicable'}
+            </span>
+          </div>
+          <span className="text-2xl font-bold text-gray-600">{rapport.nb_non_applicables}</span>
+        </div>
+      </div>
+
+      <div className="mt-4 pt-4 border-t text-center">
+        <span className="text-sm text-gray-500">
+          {rapport.nb_obligations_verifiees} {language === 'fr' ? 'obligations vérifiées' : 'obligations checked'}
+        </span>
       </div>
     </div>
   );
