@@ -1,1 +1,1 @@
-export * from './useComplianceAnalysis';
+export * from './useMarketingAnalysis';
